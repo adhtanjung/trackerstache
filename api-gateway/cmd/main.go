@@ -23,4 +23,5 @@ func main() {
 	asset.RegisterRoutes(v1, &c, &authSvc)
 
 	r.Run(c.Port)
+
 }

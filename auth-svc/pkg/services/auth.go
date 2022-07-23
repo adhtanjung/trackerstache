@@ -28,6 +28,7 @@ func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.Reg
 
 	user.Username = req.Username
 	user.Password = utils.HashPassword(req.Password)
+	user.WorkDate = req.WorkDate.AsTime()
 
 	s.H.DB.Create(&user)
 
@@ -49,10 +50,13 @@ func (s *Server) GetAll(ctx context.Context, _ *emptypb.Empty) (*pb.GetAllRespon
 
 	var data []*pb.User
 	for _, user := range users {
-
+		createdAt := user.CreatedAt.Format("2006-01-02 15:04:05")
+		updatedAt := user.UpdatedAt.Format("2006-01-02 15:04:05")
 		data = append(data, &pb.User{
-			Id:       user.Id,
-			Username: user.Username,
+			Id:        user.ID,
+			Username:  user.Username,
+			CreatedAt: createdAt,
+			UpdatedAt: updatedAt,
 		})
 	}
 
@@ -111,6 +115,25 @@ func (s *Server) Validate(ctx context.Context, req *pb.ValidateRequest) (*pb.Val
 
 	return &pb.ValidateResponse{
 		Status: http.StatusOK,
-		UserId: user.Id,
+		UserId: user.ID,
 	}, nil
+}
+
+func (s *Server) CreateRoleForUser(ctx context.Context, req *pb.CreateRoleForUserRequest) (*pb.RoleResponse, error) {
+	// var role models.Role
+
+	db := s.H.DB
+	baseModel := models.BaseModel{ID: req.RoleId}
+
+	if err := db.First(&models.Role{BaseModel: baseModel}).Error; err != nil {
+		return &pb.RoleResponse{
+			Status: http.StatusNotFound,
+			Error:  "Role not found",
+		}, nil
+	}
+
+	return &pb.RoleResponse{
+		Status: http.StatusOK,
+	}, nil
+
 }

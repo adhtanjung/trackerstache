@@ -14,7 +14,6 @@ type ServiceClient struct {
 
 func InitServiceClient(c *config.Config) pb.AssetServiceClient {
 	// using WithInsecure() because no SSL running
-	creds, _ := credentials.NewClientTLSFromFile(certFile, "")
 	cc, err := grpc.Dial(c.AssetSvcUrl, grpc.WithInsecure())
 
 	if err != nil {
