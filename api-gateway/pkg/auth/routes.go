@@ -16,6 +16,9 @@ func RegisterRoutes(r *gin.RouterGroup, c *config.Config) *ServiceClient {
 	routes.POST("/login", svc.Login)
 	routes.GET("/", svc.GetAll)
 
+	// ROLE
+	routes.POST("/role", svc.CreateRole)
+
 	return svc
 }
 
@@ -29,4 +32,8 @@ func (svc *ServiceClient) Login(ctx *gin.Context) {
 
 func (svc *ServiceClient) GetAll(ctx *gin.Context) {
 	routes.GetAll(ctx, svc.Client)
+}
+
+func (svc *ServiceClient) CreateRole(ctx *gin.Context) {
+	routes.CreateRole(ctx, svc.Client)
 }

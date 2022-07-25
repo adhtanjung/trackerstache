@@ -3,7 +3,7 @@ syntax = "proto3";
 package asset;
 import "google/protobuf/timestamp.proto";
 
-option go_package = "./pkg/asset/pb";
+option go_package = "./pkg/pb";
 
 service AssetService {
   rpc CreateAsset(CreateAssetRequest) returns (CreateAssetResponse) {}
@@ -12,6 +12,7 @@ service AssetService {
 }
 
 // CreateProduct
+
 message CreateAssetRequest {
   string name = 1;
   string serial_number = 2;

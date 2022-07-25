@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package auth;
 // import "google/protobuf/any.proto";
-import "google/protobuf/timestamp.proto";
+// import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 option go_package = "./pkg/pb";
 
@@ -12,6 +12,7 @@ service AuthService {
   rpc Validate(ValidateRequest) returns (ValidateResponse) {}
   rpc GetAll(google.protobuf.Empty) returns (GetAllResponse) {}
   rpc CreateRoleForUser(CreateRoleForUserRequest) returns (RoleResponse) {}
+  rpc CreateRole(CreateRoleRequest) returns(RoleResponse) {}
 }
 
 
@@ -20,7 +21,6 @@ service AuthService {
 message RegisterRequest {
   string username = 1;
   string password = 2;
-  google.protobuf.Timestamp work_date = 3;
 }
 
 message RegisterResponse {
@@ -94,7 +94,7 @@ message RoleResponse{
   string error = 2;
 }
 
-message CreateNewRoleRequest {
+message CreateRoleRequest {
   string name = 1;
 }
 

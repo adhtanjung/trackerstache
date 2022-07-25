@@ -28,7 +28,6 @@ func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.Reg
 
 	user.Username = req.Username
 	user.Password = utils.HashPassword(req.Password)
-	user.WorkDate = req.WorkDate.AsTime()
 
 	s.H.DB.Create(&user)
 
@@ -136,4 +135,17 @@ func (s *Server) CreateRoleForUser(ctx context.Context, req *pb.CreateRoleForUse
 		Status: http.StatusOK,
 	}, nil
 
+}
+
+func (s *Server) CreateRole(ctx context.Context, req *pb.CreateRoleRequest) (*pb.RoleResponse, error) {
+	var role models.Role
+
+	db := s.H.DB
+	role.Name = req.Name
+
+	db.Create(&role)
+
+	return &pb.RoleResponse{
+		Status: http.StatusOK,
+	}, nil
 }

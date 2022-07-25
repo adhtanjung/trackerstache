@@ -3,17 +3,14 @@ package routes
 import (
 	"context"
 	"net/http"
-	"time"
 
 	"github.com/adhtanjung/api-gateway/pkg/auth/pb"
 	"github.com/gin-gonic/gin"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type RegisterRequestBody struct {
-	Username string    `json:"username"`
-	Password string    `json:"password"`
-	WorkDate time.Time `json:"work_date"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 func Register(ctx *gin.Context, c pb.AuthServiceClient) {
@@ -27,7 +24,6 @@ func Register(ctx *gin.Context, c pb.AuthServiceClient) {
 	res, err := c.Register(context.Background(), &pb.RegisterRequest{
 		Username: body.Username,
 		Password: body.Password,
-		WorkDate: timestamppb.New(body.WorkDate),
 	})
 
 	if err != nil {
